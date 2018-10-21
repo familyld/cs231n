@@ -71,7 +71,7 @@ class KNearestNeighbor(object):
         # training point, and store the result in dists[i, j]. You should   #
         # not use a loop over dimension.                                    #
         #####################################################################
-        pass
+        dists[i, j] = np.sqrt(np.sum(np.square(X[i] - self.X_train[j])))
         #####################################################################
         #                       END OF YOUR CODE                            #
         #####################################################################
@@ -93,7 +93,7 @@ class KNearestNeighbor(object):
       # Compute the l2 distance between the ith test point and all training #
       # points, and store the result in dists[i, :].                        #
       #######################################################################
-      pass
+      dists[i, :] = np.sqrt(np.sum(np.square(X[i] - self.X_train), axis=1))
       #######################################################################
       #                         END OF YOUR CODE                            #
       #######################################################################
@@ -121,7 +121,10 @@ class KNearestNeighbor(object):
     # HINT: Try to formulate the l2 distance using matrix multiplication    #
     #       and two broadcast sums.                                         #
     #########################################################################
-    pass
+    # 其实就是把 (x-x_train)^2 分解成 x^2+x_train^2-2*x*x_train，但要在矩阵形式下，每一维要怎么变换 
+    X_train_square = np.sum(np.square(self.X_train), axis = 1) # 尺寸是 (5000, )，秩=1
+    X_square = np.reshape(np.sum(np.square(X), axis = 1), (X.shape[0], 1)) # 尺寸是 (500,1)，为了进行广播必须reshape变成秩=2的形式
+    dists = np.sqrt( X_square + X_train_square - 2*np.dot(X, self.X_train.T)) # 尺寸是 (500, 5000)
     #########################################################################
     #                         END OF YOUR CODE                              #
     #########################################################################
@@ -153,7 +156,10 @@ class KNearestNeighbor(object):
       # neighbors. Store these labels in closest_y.                           #
       # Hint: Look up the function numpy.argsort.                             #
       #########################################################################
-      pass
+      # argsort对数组内元素排序后按序返回各元素在原数组中的坐标
+      # 取argsort返回结果的前k个就即找到最近的k个训练样本在训练集中的index
+      # 取这些样本对应的标记以进行计数
+      closest_y = self.y_train[np.argsort(dists[i])[:k]]
       #########################################################################
       # TODO:                                                                 #
       # Now that you have found the labels of the k nearest neighbors, you    #
@@ -161,7 +167,11 @@ class KNearestNeighbor(object):
       # Store this label in y_pred[i]. Break ties by choosing the smaller     #
       # label.                                                                #
       #########################################################################
-      pass
+      # bincount函数可以对非负整数数组计数，假如数组最大整数为k，则bincount返回的数组长度为k+1，按0，1，... k-1, k这样从小到大分箱计数
+      # 用bincount处理closest_y就得到每个类的计数
+      # argmax能返回数组中最大值的index，有多个最大值时取第一个出现的
+      # 用argmax处理bincount返回的数组就得到出现次数最多的类了
+      y_pred[i] = np.argmax(np.bincount(closest_y))
       #########################################################################
       #                           END OF YOUR CODE                            # 
       #########################################################################
