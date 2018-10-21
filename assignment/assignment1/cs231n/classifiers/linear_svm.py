@@ -25,14 +25,14 @@ def svm_loss_naive(W, X, y, reg):
   num_classes = W.shape[1]
   num_train = X.shape[0]
   loss = 0.0
-  for i in range(num_train):
+  for i in range(num_train): # 逐个训练样本逐个类别来计算loss
     scores = X[i].dot(W)
     correct_class_score = scores[y[i]]
     for j in range(num_classes):
-      if j == y[i]:
+      if j == y[i]: # 公式中求和项是跳过真实类别的
         continue
       margin = scores[j] - correct_class_score + 1 # note delta = 1
-      if margin > 0:
+      if margin > 0: # 差距比阈值小就要算loss，否则不用
         loss += margin
 
   # Right now the loss is a sum over all training examples, but we want it
