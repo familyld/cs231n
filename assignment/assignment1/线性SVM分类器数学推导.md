@@ -1,14 +1,14 @@
-# 线性SVM分类器的Hinge loss求导推导
+# 线性SVM分类器数学推导
 
-首先，任务的定位是分类，采用线性模型，也即 $\mathrm{y} = \mathrm{W}^T\mathrm{x}$。
+首先，任务的定位是分类，采用线性模型，也即 $\mathrm{s} = \mathrm{W}^T\mathrm{x}$，计算出每个样本属于每个类的预测分数，这样遇到新样本时就把算出来分数最高的类别预测为新样本的类别。
 
-约定符号表示，样本总数为 $N$，每个样本表示为一个 $D$ 维向量，样本共分为 $C$ 个不同类别。于是有 $\mathrm{y} \in \mathbb{R}^{C}$，$\mathrm{W} \in \mathbb{R}^{D \times C}$ 和 $\mathrm{X} \in \mathbb{R}^{N \times D}$，每个单独的样本 $x_i \in \mathbb{R}^{D}$。
+约定符号表示，令样本总数/batch大小为 $N$，每个样本表示为一个 $D$ 维向量，样本共分为 $C$ 个不同类别。于是有 $\mathrm{s} \in \mathbb{R}^{C}$，$\mathrm{W} \in \mathbb{R}^{D \times C}$ 和 $\mathrm{X} \in \mathbb{R}^{N \times D}$，每个单独的样本 $x_i \in \mathbb{R}^{D}$，$\mathrm{y} \in \mathbb{R}^N$，每个单独的 $y_i$ 表示样本 $i$ 的真实类别。
 
 单个样本的hinge loss是：
 
 $$\ell_i = \sum_{j \neq y_i} \max (0,\ s_j-s_{y_i}+1)$$
 
-其中 $s_j =\mathrm{W}[:,\  j]^T\mathrm{X}[i,\ :] = {\mathrm{w}^j}^Tx_i$ 为模型为样本 $i$ 属于类别 $j$ 预测的分数，$y_i$ 为 样本的真实类别。
+其中 $s_j =\mathrm{W}[:,\  j]^T\mathrm{X}[i,\ :] = {\mathrm{w}^j}^Tx_i$ 为模型为样本 $i$ 属于类别 $j$ 预测的分数。
 
 因此，模型在整个数据集上的hinge loss就等于：
 
