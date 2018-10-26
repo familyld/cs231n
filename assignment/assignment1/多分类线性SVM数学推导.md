@@ -1,6 +1,6 @@
-# 线性SVM分类器数学推导
+# 多分类线性SVM数学推导
 
-首先，任务的定位是分类，采用线性模型，也即 $\mathrm{s} = \mathrm{W}^T\mathrm{x}$，计算出每个样本属于每个类的预测分数，这样遇到新样本时就把算出来分数最高的类别预测为新样本的类别。
+首先，任务的定位是多分类（有多个类，预测属于哪一个类），采用支持向量机（SVM）。这篇数学推导并不推SVM的损失，具体可以看看[这篇文章](https://zhuanlan.zhihu.com/p/31652569)，推导出来其实线性SVM（没有用核函数）就等价于基于hinge loss优化一个线性分类器，也即 $\mathrm{s} = \mathrm{W}^T\mathrm{x}$。预测时就用线性模型计算出样本属于各个类的分数，把分数最高的类别预测为样本的类别。
 
 约定符号表示，令样本总数/batch大小为 $N$，每个样本表示为一个 $D$ 维向量，样本共分为 $C$ 个不同类别。于是有 $\mathrm{s} \in \mathbb{R}^{C}$，$\mathrm{W} \in \mathbb{R}^{D \times C}$ 和 $\mathrm{X} \in \mathbb{R}^{N \times D}$，每个单独的样本 $x_i \in \mathbb{R}^{D}$，$\mathrm{y} \in \mathbb{R}^N$，每个单独的 $y_i$ 表示样本 $i$ 的真实类别。
 
