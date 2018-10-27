@@ -56,7 +56,7 @@ $$\begin{split}
 \end{split}
 $$
 
-可以看到这里可以分为两种情况讨论，$j$ 是否等于 $y^{(i)}$。先讨论 $j=y^{(i)}$ 的情况，此时：
+假设我们要更新参数矩阵 $\mathrm{W}$ 的第 $j$ 列，也即 $\mathrm{w}^{(j)}$， 可以看到这里可以分为两种情况讨论（$j$ 是否等于 $y^{(i)}$）。先讨论 $j=y^{(i)}$ 的情况，此时：
 
 $$\frac{\partial \ell^{(i)}}{\partial \mathrm{w}^{(y^{(i)})}} = \frac{\partial \ell^{(i)}}{\partial a^{(i)}_{y^{(i)}}}\frac{\partial a^{(i)}_{y^{(i)}}}{\partial s_{y^{(i)}}^{(i)}} \frac{\partial  s_{y^{(i)}}^{(i)}}{\partial \mathrm{w}^{(y^{(i)})}}$$
 
